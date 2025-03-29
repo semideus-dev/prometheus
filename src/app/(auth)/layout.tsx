@@ -9,9 +9,6 @@ export default async function AuthLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const isUserAuthenticated = await isAuthenticated();
-
-  if (isUserAuthenticated) redirect("/");
   return (
     <main className="flex min-h-screen">
       <section className="hidden flex-col items-center bg-primary text-primary-foreground justify-between p-10 lg:flex">
