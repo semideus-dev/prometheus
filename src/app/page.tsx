@@ -1,7 +1,11 @@
-import React from 'react'
+import { Hero } from "@/components/landing/hero";
+import Navbar from "@/components/navbar";
+import React from "react";
 
 export default function HomePage() {
   return (
-    <div>HomePage</div>
-  )
+    <div className="flex flex-col">
+      <Hero />
+    </div>
+  );
 }
