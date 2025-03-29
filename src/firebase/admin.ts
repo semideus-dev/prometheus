@@ -17,8 +17,8 @@ const initFirebaseAdmin = () => {
 
   return {
     auth: getAuth(),
-    datbase: getFirestore(),
+    db: getFirestore(),
   };
 };
 
-export const { auth, datbase } = initFirebaseAdmin();
+export const { auth, db } = initFirebaseAdmin();

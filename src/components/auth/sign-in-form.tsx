@@ -3,6 +3,9 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { auth } from "@/firebase/client";
+import { signIn } from "@/lib/actions/auth.actions";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -43,7 +46,33 @@ export default function SignInForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Form submitted:", data);
+    const { email, password } = data;
+
+    try {
+      const userCredentials = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const idToken = await userCredentials.user.getIdToken();
+
+      const result = await signIn({
+        email,
+        idToken,
+      });
+
+      if (!result.success) {
+        toast(result.message);
+        return;
+      }
+
+      toast.success("User signed in successfully.");
+      router.push("/");
+    } catch (error: any) {
+      console.error("Error signing in:", error);
+      toast.error("Error signing in.");
+    }
   };
 
   return (
@@ -90,7 +119,11 @@ export default function SignInForm() {
             className="w-full text-white"
             disabled={form.formState.isSubmitting}
           >
-            {form.formState.isSubmitting ? <PiSpinner className="animate-spin" /> : "Continue"}
+            {form.formState.isSubmitting ? (
+              <PiSpinner className="animate-spin" />
+            ) : (
+              "Continue"
+            )}
           </Button>
         </form>
       </Form>

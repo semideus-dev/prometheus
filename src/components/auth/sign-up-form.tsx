@@ -3,6 +3,10 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { auth } from "@/firebase/client";
+import { signUp } from "@/lib/actions/auth.actions";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,6 +24,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+
 
 const formSchema = z.object({
   username: z
@@ -47,7 +52,33 @@ export default function SignUpForm() {
   });
 
   const onSubmit = async (data: FormValues) => {
-    console.log("Form submitted:", data);
+    const { username, email, password } = data;
+
+    try {
+      const userCredentials = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      const result = await signUp({
+        uid: userCredentials.user.uid,
+        username,
+        email,
+        password,
+      });
+
+      if (!result.success) {
+        toast(result.message);
+        return;
+      }
+
+      toast.success("User signed up successfully. Kindly sign in to proceed.");
+      router.push("/sign-in");
+    } catch (error: any) {
+      console.error("Error signing up:", error);
+      toast.error("Error signing up.");
+    }
   };
 
   return (
@@ -76,7 +107,7 @@ export default function SignUpForm() {
             name="username"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Username</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

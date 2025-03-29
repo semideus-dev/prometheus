@@ -1,12 +1,17 @@
+import { isAuthenticated } from "@/lib/actions/auth.actions";
 import Image from "next/image";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { FaAngleLeft } from "react-icons/fa6";
 
-export default function AuthLayout({
+export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const isUserAuthenticated = await isAuthenticated();
+
+  if (isUserAuthenticated) redirect("/");
   return (
     <main className="flex min-h-screen">
       <section className="hidden flex-col items-center bg-primary text-primary-foreground justify-between p-10 lg:flex">
