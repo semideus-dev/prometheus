@@ -1,11 +1,17 @@
-import ProfileCard from "@/components/dashboard/profile-card";
-import { Button } from "@/components/ui/button";
-import { IoIosAddCircle, IoMdSearch } from "react-icons/io";
-import React from "react";
-import { Input } from "@/components/ui/input";
 import Link from "next/link";
 
-export default function Dashboard() {
+import ProfileCard from "@/components/dashboard/profile-card";
+import InterviewCard from "@/components/interview/interview-card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { IoIosAddCircle, IoMdSearch } from "react-icons/io";
+import { getInterviewByUserId } from "@/lib/actions/interview.actions";
+import { getCurrentUser } from "@/lib/actions/auth.actions";
+
+export default async function Dashboard() {
+  const user = await getCurrentUser();
+  const interviews = await getInterviewByUserId(user?.id!);
+
   return (
     <div className="pt-24 px-10">
       <ProfileCard />
@@ -22,6 +28,18 @@ export default function Dashboard() {
             <IoMdSearch size={16} aria-hidden="true" />
           </div>
         </div>
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        {interviews?.length && interviews.map((interview) => (
+          <InterviewCard
+            key={interview.id}
+            id={interview.id}
+            type={interview.type}
+            techstack={interview.techstack}
+            role={interview.role}
+            createdAt={interview.createdAt}
+          />
+        ))}
       </div>
     </div>
   );

@@ -16,3 +16,20 @@ interface User {
   id: string;
   avatar: string;
 }
+
+interface Interview {
+  id: string;
+  role: string;
+  level: string;
+  questions: string[];
+  techstack: string[];
+  createdAt: string;
+  userId: string;
+  type: string;
+  finalized: boolean;
+}
+
+interface RouteParams {
+  params: Promise<Record<string, string>>;
+  searchParams: Promise<Record<string, string>>;
+}

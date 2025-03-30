@@ -8,6 +8,7 @@ import { vapi } from "@/lib/vapi.sdk";
 import { bottts } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import { cn } from "@/lib/utils";
+import { interviewer } from "@/lib/constants";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -24,9 +25,11 @@ interface ChatMessage {
 export default function Agent({
   user,
   type,
+  questions,
 }: {
   user: User;
   type: "generate" | "interview";
+  questions?: string[];
 }) {
   const avatar = createAvatar(bottts, {
     seed: Math.random().toString(),
@@ -74,21 +77,53 @@ export default function Agent({
     };
   }, []);
 
+  const handleGenerateFeedback = async (messages: ChatMessage[]) => {
+    const { success, id } = {
+      success: true,
+      id: "feedback-id",
+    };
+
+    if (success && id) {
+      router.push(`/interview/${id}/feedback`);
+    } else {
+      console.error("Error generating feedback");
+      router.push("/dashboard");
+    }
+  };
+
   useEffect(() => {
     if (callStatus === CallStatus.FINISHED) {
-      router.push("/dashboard");
+      if (type === "generate") {
+        router.push("/dashboard");
+      } else {
+        handleGenerateFeedback(messages);
+      }
     }
   }, [messages, callStatus, type, user.id]);
 
   const handleCall = async () => {
     setCallStatus(CallStatus.CONNECTING);
 
-    await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID!, {
-      variableValues: {
-        username: user.username,
-        userId: user.id,
-      },
-    });
+    if (type === "generate") {
+      await vapi.start(process.env.NEXT_PUBLIC_VAPI_ASSISTANT_ID!, {
+        variableValues: {
+          username: user.username,
+          userId: user.id,
+        },
+      });
+    } else {
+      let formattedQuestions = "";
+
+      if (questions) {
+        formattedQuestions = questions
+          .map((question) => `- ${question}`)
+          .join("\n");
+      }
+
+      await vapi.start(interviewer, {
+        variableValues: { questions: formattedQuestions },
+      });
+    }
   };
   const handleDisconnect = () => {
     setCallStatus(CallStatus.FINISHED);
@@ -110,7 +145,7 @@ export default function Agent({
 
           <span className="text-xl font-medium">Prometheus</span>
         </div>
-        <div className="border-2 bg-primary/10 rounded-xl p-4 flex flex-col gap-4 items-center justify-center">
+        <div className="border-2 bg-background rounded-xl p-4 flex flex-col gap-4 items-center justify-center">
           <div
             className="h-36 w-36 overflow-hidden rounded-xl"
             dangerouslySetInnerHTML={{ __html: user.avatar.toString() }}
@@ -129,7 +164,7 @@ export default function Agent({
       <div className="w-full flex justify-center">
         {callStatus !== "ACTIVE" ? (
           <button
-            className="relative text-lg rounded-full cursor-pointer px-10 flex gap-4 items-center py-3 bg-muted"
+            className="relative text-lg rounded-full cursor-pointer px-10 flex gap-4 items-center py-3 bg-emerald-500"
             onClick={() => handleCall()}
           >
             <span
