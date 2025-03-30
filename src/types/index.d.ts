@@ -11,7 +11,8 @@ interface SignInProps {
 }
 
 interface User {
-  name: string;
+  username: string;
   email: string;
   id: string;
+  avatar: string;
 }

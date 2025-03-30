@@ -2,6 +2,8 @@
 
 import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
+import { createAvatar } from "@dicebear/core";
+import { botttsNeutral } from "@dicebear/collection";
 
 const TWO_DAYS = 60 * 60 * 24 * 2;
 
@@ -18,9 +20,12 @@ export async function signUp(params: SignUpProps) {
       };
     }
 
+    const avatar = createAvatar(botttsNeutral);
+
     await db.collection("users").doc(uid).set({
       username,
       email,
+      avatar: avatar.toString(),
     });
 
     return {
@@ -114,7 +119,7 @@ export async function getCurrentUser(): Promise<User | null> {
       id: userRecord.id,
     } as User;
   } catch (error: any) {
-    console.error("Error getting current user:", error);
+    // console.error("Error getting current user:", error);
     return null;
   }
 }

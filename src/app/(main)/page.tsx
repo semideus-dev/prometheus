@@ -4,9 +4,9 @@ import React from "react";
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col">
+    <section className="flex flex-col">
       <Navbar />
       <Hero />
-    </div>
+    </section>
   );
 }
