@@ -3,7 +3,7 @@
 import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
 import { createAvatar } from "@dicebear/core";
-import { botttsNeutral } from "@dicebear/collection";
+import { funEmoji } from "@dicebear/collection";
 
 const TWO_DAYS = 60 * 60 * 24 * 2;
 
@@ -20,7 +20,9 @@ export async function signUp(params: SignUpProps) {
       };
     }
 
-    const avatar = createAvatar(botttsNeutral);
+    const avatar = createAvatar(funEmoji, {
+      seed: Math.random().toString(),
+    });
 
     await db.collection("users").doc(uid).set({
       username,
