@@ -9,6 +9,7 @@ import { bottts } from "@dicebear/collection";
 import { createAvatar } from "@dicebear/core";
 import { cn } from "@/lib/utils";
 import { interviewer } from "@/lib/constants";
+import { createFeedback } from "@/lib/actions/interview.actions";
 
 enum CallStatus {
   INACTIVE = "INACTIVE",
@@ -26,10 +27,12 @@ export default function Agent({
   user,
   type,
   questions,
+  interviewId,
 }: {
   user: User;
   type: "generate" | "interview";
   questions?: string[];
+  interviewId?: string;
 }) {
   const avatar = createAvatar(bottts, {
     seed: Math.random().toString(),
@@ -78,13 +81,14 @@ export default function Agent({
   }, []);
 
   const handleGenerateFeedback = async (messages: ChatMessage[]) => {
-    const { success, id } = {
-      success: true,
-      id: "feedback-id",
-    };
+    const { success, id } = await createFeedback({
+      interviewId: interviewId!,
+      userId: user.id!,
+      transcript: messages,
+    });
 
     if (success && id) {
-      router.push(`/interview/${id}/feedback`);
+      router.push(`/interview/${interviewId}/feedback`);
     } else {
       console.error("Error generating feedback");
       router.push("/dashboard");

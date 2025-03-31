@@ -14,6 +14,6 @@ export default async function InterviewSession({ params }: RouteParams) {
   return <section className="px-10 pt-24 flex flex-col items-center justify-center gap-6">
     <h1 className="text-3xl font-medium capitalize">{interview.role} Interview</h1>
     <span className="bg-primary px-4 rounded-md w-fit uppercase">{interview.type}</span>
-    <Agent user={user!} type="interview" questions={interview.questions} />
+    <Agent user={user!} type="interview" questions={interview.questions} interviewId={id} />
   </section>;
 }

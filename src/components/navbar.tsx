@@ -8,7 +8,7 @@ import { IoMdLogIn } from "react-icons/io";
 export default async function Navbar() {
   const isUserAuthenticated = await isAuthenticated();
   return (
-    <nav className="z-50 fixed flex items-center justify-between w-full p-10">
+    <nav className="z-50 fixed flex items-center justify-between w-full p-10 backdrop-blur-md">
       <Link href="/">
         <div className="flex items-center gap-4">
           <Image src="/logo.svg" width={20} height={20} alt="Logo" />

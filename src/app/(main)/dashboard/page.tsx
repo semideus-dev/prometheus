@@ -13,7 +13,7 @@ export default async function Dashboard() {
   const interviews = await getInterviewByUserId(user?.id!);
 
   return (
-    <div className="pt-24 px-10">
+    <div className="px-10">
       <ProfileCard />
       <div className="my-4 flex items-center gap-2">
         <Link href="/interview/create">
@@ -30,16 +30,18 @@ export default async function Dashboard() {
         </div>
       </div>
       <div className="grid grid-cols-3 gap-4">
-        {interviews?.length && interviews.map((interview) => (
-          <InterviewCard
-            key={interview.id}
-            id={interview.id}
-            type={interview.type}
-            techstack={interview.techstack}
-            role={interview.role}
-            createdAt={interview.createdAt}
-          />
-        ))}
+        {interviews?.length &&
+          interviews.map((interview) => (
+            <InterviewCard
+              key={interview.id}
+              id={interview.id}
+              userId={user?.id!}
+              type={interview.type}
+              techstack={interview.techstack}
+              role={interview.role}
+              createdAt={interview.createdAt}
+            />
+          ))}
       </div>
     </div>
   );
