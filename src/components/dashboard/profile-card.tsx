@@ -1,7 +1,9 @@
 import { getCurrentUser } from "@/lib/actions/auth.actions";
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { SettingsSheet } from "@/components/settings-sheet";
+import { UpgradeSheet } from "@/components/upgrade-sheet";
 
 export default async function ProfileCard() {
   const user = await getCurrentUser();
@@ -17,8 +19,12 @@ export default async function ProfileCard() {
           <span className="text-sm">{user.email}</span>
         </div>
         <div className="grid grid-cols-2 gap-2">
-          <Button variant="outline">Settings</Button>
-          <Button variant="outline">Upgrade</Button>
+          <SettingsSheet>
+            <Button variant="outline">Settings</Button>
+          </SettingsSheet>
+          <UpgradeSheet>
+            <Button variant="outline">Upgrade</Button>
+          </UpgradeSheet>
         </div>
       </div>
       {user.avatar ? (

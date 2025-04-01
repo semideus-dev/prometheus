@@ -3,7 +3,7 @@ import { google } from "@ai-sdk/google";
 import { db } from "@/firebase/admin";
 
 export async function GET() {
-  return Response.json({ succces: true, data: "Vapi!" }, { status: 200 });
+  return Response.json({ success: true, data: "Vapi!" }, { status: 200 });
 }
 
 export async function POST(req: Request) {

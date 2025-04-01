@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 import ProfileCard from "@/components/dashboard/profile-card";
 import InterviewCard from "@/components/interview/interview-card";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,15 @@ import { getCurrentUser } from "@/lib/actions/auth.actions";
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
-  const interviews = await getInterviewByUserId(user?.id!);
+
+  if (!user?.id) {
+    return (
+      <div className="flex h-screen items-center justify-center text-2xl font-medium text-muted-foreground">
+        <p>Please sign in to view your interviews.</p>
+      </div>
+    )
+  }
+  const interviews = await getInterviewByUserId(user.id);
 
   return (
     <div className="px-10">
@@ -35,7 +42,7 @@ export default async function Dashboard() {
             <InterviewCard
               key={interview.id}
               id={interview.id}
-              userId={user?.id!}
+              userId={user.id}
               type={interview.type}
               techstack={interview.techstack}
               role={interview.role}

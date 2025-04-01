@@ -8,16 +8,31 @@ import { feedbackSchema } from "@/lib/constants";
 export async function getInterviewByUserId(
   userId: string
 ): Promise<Interview[] | null> {
-  const interviews = await db
-    .collection("interviews")
-    .where("userId", "==", userId)
-    .orderBy("createdAt", "desc")
-    .get();
 
-  return interviews.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  })) as Interview[];
+  if (!userId) {
+    console.log("No userId provided");
+    return null;
+  }
+
+  try {
+    const interviews = await db
+      .collection("interviews")
+      .where("userId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .get();
+
+    if (interviews.empty) {
+      return null;
+    }
+
+    return interviews.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    })) as Interview[];
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+    return null;
+  }
 }
 
 export async function getInterviewById(id: string): Promise<Interview | null> {
