@@ -26,9 +26,8 @@ export default async function FeedbackPage({ params }: RouteParams) {
     userId: user!.id,
   });
 
-  console.log(feedback);
   return (
-    <section className="px-10 pt-36 flex flex-col gap-6 items-center justify-center">
+    <section className="px-10 flex flex-col gap-6 items-center justify-center">
       <h1 className="font-medium text-3xl">
         Feedback on - {interview.role} Interview
       </h1>

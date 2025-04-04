@@ -2,6 +2,7 @@
 
 import { TextEffect } from "@/components/motion/text-effect";
 import { motion } from "motion/react";
+import { Button } from "@/components/ui/button";
 
 export function Hero() {
   return (
@@ -9,7 +10,7 @@ export function Hero() {
       <TextEffect
         per="char"
         delay={0.5}
-        className="text-7xl font-medium bg-gradient-to-r bg-clip-text text-transparent from-white via-purple-400 to-primary"
+        className="text-7xl font-medium bg-gradient-to-r bg-clip-text text-transparent from-white via-primary to-primary"
         variants={{
           container: {
             hidden: {
@@ -76,11 +77,25 @@ export function Hero() {
       >
         for Interview Preparation
       </TextEffect>
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 4, duration: 1 }} className="mt-10">
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 4, duration: 1 }}
+        className="my-10"
+      >
         <p className="text-lg text-muted-foreground">
-          Get instant feedback, personalized insights, and <br /> AI-driven coaching to
-          improve your interview skills.
+          Get instant feedback, personalized insights, and <br /> AI-driven
+          coaching to improve your interview skills.
         </p>
+      </motion.div>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 4.5, duration: 1 }}
+        className="flex items-center gap-2"
+      >
+        <Button variant="outline" className="px-6">Upgrade</Button>
+        <Button variant="outline" className="px-6">Explore</Button>
       </motion.div>
     </div>
   );

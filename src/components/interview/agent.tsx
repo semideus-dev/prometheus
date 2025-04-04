@@ -140,23 +140,23 @@ export default function Agent({
 
   return (
     <>
-      <div className="grid grid-cols-1 md:grid-cols-2 h-[400px] gap-4 my-5 w-full">
-        <div className="border-2 bg-primary/10 rounded-xl p-4 flex flex-col gap-4 items-center justify-center">
-          <div
-            className="h-36 w-36 rounded-xl overflow-hidden"
-            dangerouslySetInnerHTML={{ __html: avatar.toString() }}
-          />
+      {/* <div className="h-[450px] gap-4 my-5 w-full"> */}
+      <div className={cn(isSpeaking && "border-primary", "border-2 bg-primary/10 relative w-full my-4 h-[450px] rounded-xl p-4 flex flex-col gap-4 items-center justify-center")}>
+        <div
+          className="h-36 w-36 rounded-xl overflow-hidden"
+          dangerouslySetInnerHTML={{ __html: avatar.toString() }}
+        />
 
-          <span className="text-xl font-medium">Prometheus</span>
-        </div>
-        <div className="border-2 bg-background rounded-xl p-4 flex flex-col gap-4 items-center justify-center">
+        <span className="text-xl font-medium">Prometheus</span>
+        <div className="border-2 bg-background absolute right-2 bottom-2 rounded-xl w-[150px] p-4 flex flex-col gap-4 items-center justify-center">
           <div
-            className="h-36 w-36 overflow-hidden rounded-xl"
+            className="h-12 w-12 overflow-hidden rounded-xl"
             dangerouslySetInnerHTML={{ __html: user.avatar.toString() }}
           />
           <span className="text-xl font-medium">You</span>
         </div>
       </div>
+      {/* </div> */}
       {messages.length > 0 && (
         <div
           key={latestMessage}

@@ -1,7 +1,7 @@
 import { getCurrentUser } from "@/lib/actions/auth.actions";
-import React from "react";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import Link from "next/link";
 
 export default async function ProfileCard() {
   const user = await getCurrentUser();
@@ -16,9 +16,17 @@ export default async function ProfileCard() {
           <h1 className="text-3xl font-medium">Welcome, {user.username}!</h1>
           <span className="text-sm">{user.email}</span>
         </div>
-        <div className="grid grid-cols-2 gap-2">
-          <Button variant="outline">Settings</Button>
-          <Button variant="outline">Upgrade</Button>
+        <div className="flex items-center justify-center gap-2">
+          <Link href="#" className="w-full">
+            <Button variant="outline" className="w-full">
+              Settings
+            </Button>
+          </Link>
+          <Link href="/pricing" className="w-full">
+            <Button variant="outline" className="w-full">
+              Upgrade
+            </Button>
+          </Link>
         </div>
       </div>
       {user.avatar ? (

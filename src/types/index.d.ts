@@ -60,3 +60,12 @@ interface Feedback {
   finalAssessment: string;
   createdAt: string;
 }
+
+interface InterviewCardProps {
+  id: string;
+  userId: string;
+  type: string;
+  techstack: string[];
+  role: string;
+  createdAt: string;
+}

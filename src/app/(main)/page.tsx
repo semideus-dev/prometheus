@@ -4,7 +4,7 @@ import React from "react";
 
 export default function HomePage() {
   return (
-    <section className="flex flex-col">
+    <section className="flex flex-col pt-0">
       <Hero />
     </section>
   );

@@ -19,6 +19,7 @@ export default async function AuthLayout({
               width={50}
               height={50}
               alt="Logo"
+              className="invert"
             />
 
             <h1 className="text-3xl font-light uppercase">Prometheus</h1>

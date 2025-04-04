@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import React from "react";
 
@@ -9,7 +10,8 @@ export default function MainLayout({
   return (
     <main className="flex flex-col">
       <Navbar />
-      <div className="pt-36">{children}</div>
+      {children}
+      <Footer />
     </main>
   );
 }
