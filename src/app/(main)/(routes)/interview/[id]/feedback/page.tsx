@@ -12,7 +12,8 @@ import React from "react";
 import { FaCalendar } from "react-icons/fa";
 import { MdOutlineErrorOutline } from "react-icons/md";
 import { TiTickOutline } from "react-icons/ti";
-import { FaUser } from "react-icons/fa6";
+import { FaUser, FaClockRotateLeft } from "react-icons/fa6";
+import Link from "next/link";
 
 export default async function FeedbackPage({ params }: RouteParams) {
   const { id } = await params;
@@ -44,6 +45,13 @@ export default async function FeedbackPage({ params }: RouteParams) {
             <FaCalendar className="text-primary" />
             <p>{formatDate(feedback!.createdAt)}</p>
           </FeedbackPill>
+          <Link href={`/interview/${id}`}>
+            <FeedbackPill>
+              <FaClockRotateLeft className="text-primary" />
+              <p>Retake Interview</p>
+            </FeedbackPill>
+          </Link>
+          {/* Score */}
         </div>
       </div>
 

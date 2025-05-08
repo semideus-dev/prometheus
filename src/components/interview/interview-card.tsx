@@ -24,7 +24,7 @@ export default async function InterviewCard({
   const formattedTechstack = formatTechnologies(techstack);
   const formattedType = formatInterviewType(type);
   return (
-    <Link href={`/interview/${id}`}>
+    <Link href={feedback ? `/interview/${id}/feedback` : `/interview/${id}`}>
       <div className="border rounded-xl relative flex flex-col justify-between h-full">
         <div className="bg-primary w-fit text-primary-foreground px-4 absolute right-0 uppercase rounded-tr-xl rounded-bl-xl">
           {formattedType}
